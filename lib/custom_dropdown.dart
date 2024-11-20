@@ -180,6 +180,12 @@ class CustomDropdown<T> extends StatefulWidget {
 
   final _DropdownType _dropdownType;
 
+  /// Callback to open [CustomDropdown] overlay.
+  final Function()? onOpenOverlay;
+
+  /// Callback to close [CustomDropdown] overlay.
+  final Function()? onCloseOverlay;
+
   CustomDropdown({
     super.key,
     required this.items,
@@ -207,6 +213,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.excludeSelected = true,
     this.enabled = true,
     this.disabledDecoration,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItem == null || controller == null,
           'Only one of initialItem or controller can be specified at a time',
@@ -267,6 +275,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.enabled = true,
     this.disabledDecoration,
     this.closeDropDownOnClearFilterSearch = false,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItem == null || controller == null,
           'Only one of initialItem or controller can be specified at a time',
@@ -326,6 +336,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.enabled = true,
     this.disabledDecoration,
     this.closeDropDownOnClearFilterSearch = false,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItem == null || controller == null,
           'Only one of initialItem or controller can be specified at a time',
@@ -365,6 +377,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.listItemPadding,
     this.enabled = true,
     this.disabledDecoration,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItems == null || multiSelectController == null,
           'Only one of initialItems or controller can be specified at a time',
@@ -427,6 +441,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.enabled = true,
     this.disabledDecoration,
     this.closeDropDownOnClearFilterSearch = false,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItems == null || multiSelectController == null,
           'Only one of initialItems or controller can be specified at a time',
@@ -488,6 +504,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.enabled = true,
     this.disabledDecoration,
     this.closeDropDownOnClearFilterSearch = false,
+    this.onOpenOverlay,
+    this.onCloseOverlay,
   })  : assert(
           initialItems == null || multiSelectController == null,
           'Only one of initialItems or controller can be specified at a time',
@@ -673,6 +691,8 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
                   searchRequestLoadingIndicator:
                       widget.searchRequestLoadingIndicator,
                   dropdownType: widget._dropdownType,
+                  onOpenOverlay: widget.onOpenOverlay,
+                  onCloseOverlay: widget.onCloseOverlay,
                 );
               },
               child: (showCallback) {

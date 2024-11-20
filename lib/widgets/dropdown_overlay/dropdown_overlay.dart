@@ -38,6 +38,8 @@ class _DropdownOverlay<T> extends StatefulWidget {
   final _NoResultFoundBuilder? noResultFoundBuilder;
   final CustomDropdownDecoration? decoration;
   final _DropdownType dropdownType;
+  final Function()? onOpenOverlay;
+  final Function()? onCloseOverlay;
 
   const _DropdownOverlay({
     Key? key,
@@ -75,6 +77,8 @@ class _DropdownOverlay<T> extends StatefulWidget {
     required this.listItemBuilder,
     required this.headerListBuilder,
     required this.noResultFoundBuilder,
+    required this.onOpenOverlay,
+    required this.onCloseOverlay,
   });
 
   @override
@@ -203,6 +207,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
         displayOverlayBottom = false;
         setState(() {});
       }
+
+      if (widget.onOpenOverlay != null) widget.onOpenOverlay!();
     });
 
     selectedItem = widget.selectedItemNotifier.value;
@@ -337,18 +343,18 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                         },
                         child: Theme(
                           data: Theme.of(context).copyWith(
-                            scrollbarTheme: decoration
-                                    ?.overlayScrollbarDecoration ??
-                                ScrollbarThemeData(
-                                  thumbVisibility: MaterialStateProperty.all(
-                                    true,
-                                  ),
-                                  thickness: MaterialStateProperty.all(5),
-                                  radius: const Radius.circular(4),
-                                  thumbColor: MaterialStateProperty.all(
-                                    Colors.grey[300],
-                                  ),
-                                ),
+                            scrollbarTheme:
+                                decoration?.overlayScrollbarDecoration ??
+                                    ScrollbarThemeData(
+                                      thumbVisibility: WidgetStateProperty.all(
+                                        true,
+                                      ),
+                                      thickness: WidgetStateProperty.all(5),
+                                      radius: const Radius.circular(4),
+                                      thumbColor: WidgetStateProperty.all(
+                                        Colors.grey[300],
+                                      ),
+                                    ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -547,7 +553,10 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       return Stack(
         children: [
           GestureDetector(
-            onTap: () => setState(() => displayOverly = false),
+            onTap: () {
+              setState(() => displayOverly = false);
+              if (widget.onCloseOverlay != null) widget.onCloseOverlay!();
+            },
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
